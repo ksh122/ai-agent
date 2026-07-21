@@ -4,21 +4,25 @@ import os
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    base_url="https://openrouter.ai/api/v1"
-)
 
-model = os.getenv("MODEL")
+if __name__ == "__main__":
 
-response = client.chat.completions.create(
-    model= model,
-    messages=[
-        {
-            "role": "user",
-            "content": "Explain LangGraph in simple terms"
-        }
-    ]
-)
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url="https://openrouter.ai/api/v1"
+    )
 
-print(response.choices[0].message.content)
+    # load the model
+    model = os.getenv("MODEL")
+
+    # generate the response
+    response = client.chat.completions.create(
+        model= model,
+        messages=[
+            {
+                "role": "user",
+                "content": "Explain LangGraph in simple terms"
+            }
+        ]
+    )
+    print(response.choices[0].message.content)
