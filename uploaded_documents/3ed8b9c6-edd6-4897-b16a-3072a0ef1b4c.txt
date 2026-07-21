@@ -1,0 +1,19 @@
+Skills to add in resume-
+
+Data Science
+keras
+computer vision
+CNN 
+RNN
+Transformers
+Auto-encoders
+GAN
+LLMs
+
+
+
+Tools:
+Git
+RoboFlow
+LabelImg
+Docker

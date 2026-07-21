@@ -1,0 +1,16 @@
+Python, C++, SQL, Machine Learning, Artificial Intelligence, Deep Learning, Transformers,
+ Data Science, Computer Vision, Neural Networks, Generative Adversial Network(GAN), Natural Language
+ Processing(NLP), Data Visualization , Numpy, Pandas, MatplotLib, Scipy, spaCY, keras, PyTorch, TensorFlow,
+ Scikit Learn, LSTM, Bi-LSTM, Encoder-Decoder, Fasttext, BERT, LangChain, HuggingFace, YOLO,
+ Auto-Encoder, NLTK, openCV , Large Language Model(LLMs)
+ 
+
+-- to be added
+ GPU optimization(CUDA)
+ 
+ --
+ TOOLS: VS Code, Docker, Render, Git & Github, Jupyter Notebook, Google Colab, Kaggle, Streamlit,
+ Roboflow, LabelImg
+ 
+ Machine Learning, Natural Language Processing, Artificial Intelligence, Data Visualization, Computer Vision, Encoder-decoder, Data Structures, Neural Networks, Deep Learning, 
+ Data Science, Scikit Learn, Matplotlib, Algorithms, Tensorflow, Langchain,Large Language Model(LLMs), Pytorch, Python, Opencv, Github, Pandas, Docker, Keras, Scipy, Numpy, Bert, Nltk, Git, SQL
