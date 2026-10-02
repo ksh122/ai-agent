@@ -1,17 +1,10 @@
 from openai import OpenAI
 from dotenv import load_dotenv
-from typing import Optional
-import os
+from app.prompts import SYSTEM_PROMPT
 from app.config import get_Settings
 
 load_dotenv()
 
-
-SYSTEM_PROMPT=(
-                " You are a helpful assistant named {AGENT_NAME}."
-                " Introduce yourself as an assistant with name and "
-                " answer the user's query. Try to answer user's query in at most 100 words."
-            )
 
 class Agent():
 
@@ -48,14 +41,28 @@ class Agent():
         self.messages.append(query_object)
         return self.messages
 
+    def add_llm_response(self, content):
 
+        llm_response = {
+            "role": "assistant",
+            "content": content
+        }
+        self.messages.append(llm_response)
+        return
     
     def generate_response(self, messages) -> str:
 
         client = self.client
-        response = client.chat.completions.create(model=self.settings.model, messages=messages)
+        response = client.chat.completions.create(
+            model=self.settings.model, 
+            messages=messages,
+            max_tokens=self.settings.max_tokens
+        )
+        content = response.choices[0].message.content
+        self.add_llm_response(content)
+        return content
 
-        return response.choices[0].message.content
+    
 
     def print_messages(self):
 
@@ -67,9 +74,11 @@ class Agent():
 
 if __name__ == "__main__":
 
+    agent = Agent()
+
     for i in range(4):
 
-        agent = Agent()
+        
         user_input = input("Provide your query:")
 
         if user_input in ["quit","exit","bye"]:
