@@ -1,20 +1,23 @@
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+from app.config import Settings
 
 load_dotenv()
 
-API_KEY = os.getenv("OPENAI_API_KEY")
-BASE_URL = os.getenv("BASE_URL", "https://openrouter.ai/api/v1")
-MODEL = os.getenv("MODEL", "openai/gpt-oss-120b")
-AGENT_NAME = os.getenv("AGENT_NAME", "Horizon")
+# API_KEY = os.getenv("OPENAI_API_KEY")
+# BASE_URL = os.getenv("BASE_URL", "https://openrouter.ai/api/v1")
+# MODEL = os.getenv("MODEL", "openai/gpt-oss-120b")
+# AGENT_NAME = os.getenv("AGENT_NAME", "Horizon")
 
-class Agent:
 
-    def __init__(self, model: str = MODEL, base_url: str = BASE_URL, api_key: str = API_KEY):
-        self.model = model
-        self.base_url = base_url
-        self.api_key = api_key
+
+class Agent(Settings):
+
+    def __init__(self):
+        self.model = self.MODEL
+        self.base_url = self.BASE_URL
+        self.api_key = self.API_KEY
         self.client = OpenAI(
             api_key=self.api_key,
             base_url=self.base_url
