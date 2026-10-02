@@ -1,63 +1,83 @@
 from openai import OpenAI
 from dotenv import load_dotenv
+from typing import Optional
 import os
-from app.config import Settings
+from app.config import get_Settings
 
 load_dotenv()
 
-# API_KEY = os.getenv("OPENAI_API_KEY")
-# BASE_URL = os.getenv("BASE_URL", "https://openrouter.ai/api/v1")
-# MODEL = os.getenv("MODEL", "openai/gpt-oss-120b")
-# AGENT_NAME = os.getenv("AGENT_NAME", "Horizon")
 
+SYSTEM_PROMPT=(
+                " You are a helpful assistant named {AGENT_NAME}."
+                " Introduce yourself as an assistant with name and "
+                " answer the user's query. Try to answer user's query in at most 100 words."
+            )
 
-
-class Agent(Settings):
+class Agent():
 
     def __init__(self):
-        self.model = self.MODEL
-        self.base_url = self.BASE_URL
-        self.api_key = self.API_KEY
+
+        self.settings = get_Settings()
         self.client = OpenAI(
-            api_key=self.api_key,
-            base_url=self.base_url
+            api_key=self.settings.api_key,
+            base_url=self.settings.base_url
         )
-    
-    def generate_response(self, messages: list[dict]) -> str:
+        self.messages = []
 
-        response = self.client.chat.completions.create(model=self.model, messages=messages)
-        return response
+    def build_system_prompt(self):
 
-
-
-SYSTEM_PROMPT=f""" You are a helpful assistant named {AGENT_NAME}. Introduce yourself as an assistant with name and 
-                   answer the user's query. Try to answer user's query in at most 100 words."""
-
-
-def get_messages(user_input: str) -> list[dict]:
-
-    system_prompt = SYSTEM_PROMPT.format(AGENT_NAME=AGENT_NAME)
-    messages = [
-        {
-            "role": "assistant",
+        system_prompt = SYSTEM_PROMPT.format(AGENT_NAME=self.settings.agent_name)
+        temp = {
+            "role": "system",
             "content": system_prompt
-        },
-        {
-            "role": "user",
-            "content": user_input
         }
-    ]
+        self.messages.append(temp)
+        return 
+        
 
-    return messages
+    def get_messages(self, user_query) -> list:
+
+        # Build system prompt only for first time
+        if len(self.messages)==0:
+            self.build_system_prompt()
+        
+        query_object = {
+            "role": "user",
+            "content": user_query
+        }
+        self.messages.append(query_object)
+        return self.messages
+
+
+    
+    def generate_response(self, messages) -> str:
+
+        client = self.client
+        response = client.chat.completions.create(model=self.settings.model, messages=messages)
+
+        return response.choices[0].message.content
+
+    def print_messages(self):
+
+        for item in self.messages:
+            print(item)
+            print("=========")
 
 
 
 if __name__ == "__main__":
 
-    agent = Agent()
-    user_input = input("Provide your query:")
+    for i in range(4):
 
-    messages = get_messages(user_input)
-    response = agent.generate_response(messages)
+        agent = Agent()
+        user_input = input("Provide your query:")
 
-    print(response.choices[0].message.content)
+        if user_input in ["quit","exit","bye"]:
+            break
+
+        messages = agent.get_messages(user_input)
+        response = agent.generate_response(messages)
+        print(response)
+        print("*********")
+        
+    print(agent.print_messages())

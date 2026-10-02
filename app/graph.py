@@ -14,9 +14,3 @@ def agent_node(state: AgentState)-> AgentState :
     llm = Agent()
 
 
-graph = StateGraph(AgentState)
-
-graph.add_node("agent_node", agent_node)
-graph.add_node("tool_node", tool_node)
-
-graph
