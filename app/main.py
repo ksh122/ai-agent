@@ -1,7 +1,9 @@
-from openai import OpenAI
+from typing import TypedDict
+from openai import OpenAI, api_key
 from dotenv import load_dotenv
-from app.prompts import SYSTEM_PROMPT
+from app.prompts.system_prompt import SYSTEM_PROMPT
 from app.config import get_Settings
+from langchain.chat_models import init_chat_model
 
 load_dotenv()
 
@@ -16,6 +18,10 @@ class Agent():
             base_url=self.settings.base_url
         )
         self.messages = []
+        self.sum=0
+
+    def get_client(self):
+        return self.client
 
     def build_system_prompt(self):
 
@@ -69,6 +75,17 @@ class Agent():
         for item in self.messages:
             print(item)
             print("=========")
+    
+    def get_chat_model(self):
+
+        model = init_chat_model(
+            model=self.settings.model,
+            model_provider=self.settings.model_provider,
+            api_key=self.settings.api_key,
+            max_tokens=self.settings.max_tokens
+        )
+
+        return model
 
 
 

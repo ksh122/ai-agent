@@ -16,7 +16,9 @@ dependencies = [
     "python-multipart (>=0.0.32,<0.0.33)",
     "uvicorn (>=0.51.0,<0.52.0)",
     "langchain-text-splitters (>=1.1.2,<2.0.0)",
-    "chromadb (>=1.5.9,<2.0.0)"
+    "chromadb (>=1.5.9,<2.0.0)",
+    "langchain-openrouter (>=0.2.9,<0.3.0)",
+    "ipython (>=9.17.1,<10.0.0)"
 ]
 
 
